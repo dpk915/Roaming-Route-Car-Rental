@@ -5,10 +5,11 @@ package com.masai.UI;
 
 import java.util.Scanner;
 
+import com.masai.Carbooking.com.masai.car.LoggedInId;
 import com.masai.Entity.User;
 import com.masai.Exception.SomethingWentwrongException;
-import com.masai.services.ServicesImpl;
-import com.masai.services.Servicesinterface;
+import com.masai.services.UserServicesImpl;
+import com.masai.services.UserServicesinterface;
 
 import jakarta.persistence.PersistenceException;
 
@@ -21,7 +22,7 @@ public class Mainui {
 
         boolean isLoggedIn = false;
         boolean isAdmin = false;
-        int userId = 0;
+        LoggedInId.loginId = 0;
 
         while (true) {
             showMainMenu();
@@ -35,15 +36,15 @@ public class Mainui {
                     break;
                 case 2:
                     // User login
-                    userId = loginUser();
-                    isLoggedIn = (userId != 0);
+                	LoggedInId.loginId= loginUser();
+                    isLoggedIn = (LoggedInId.loginId != 0);
                     isAdmin = false;
                     break;
                 case 3:
                     // Admin login
-                    userId = loginAdmin();
-                    isLoggedIn = (userId != 0);
-                    isAdmin = (userId != 0);
+                	LoggedInId.loginId = loginAdmin();
+                    isLoggedIn = (LoggedInId.loginId != 0);
+                    isAdmin = (LoggedInId.loginId != 0);
                     break;
                 case 4:
                     // Exit the program
@@ -59,7 +60,7 @@ public class Mainui {
                    // performAdminOperations();
                 } else {
                     // Perform user operations
-                    performUserOperations(userId);
+                    performUserOperations(LoggedInId.loginId);
                 }
             }
         }
@@ -88,7 +89,7 @@ public class Mainui {
     	System.out.println("Please Enter create your password");
     	String password=sc.next();
        
-    	Servicesinterface ser=new ServicesImpl();
+    	UserServicesinterface ser=new UserServicesImpl();
     	try {
     		User u=new User(username,Email,password);
     		ser.adduserservices(u);
@@ -99,16 +100,38 @@ public class Mainui {
     	}
     }
 
-    private static int loginUser() {
-        // Implement user login logic here
-        System.out.println("User login functionality coming soon!");
-        return 0; // Return the user ID upon successful login
+    private static int loginUser() throws SomethingWentwrongException {
+    	
+    	System.out.println("Please Enter your user name to login");
+    	String username=sc.next();
+    	System.out.println("Please Enter your password");
+    	String password=sc.next();
+       
+    	UserServicesinterface ser=new UserServicesImpl();
+    	try {
+    	
+    		ser.loginuser(username, password);
+    		System.out.println("User login Succesfully with id  "+LoggedInId.loginId);
+    		
+    	}catch(PersistenceException ex) {
+    		System.out.println(ex.getMessage());
+    	}
+       
+        return LoggedInId.loginId; // Return the user ID upon successful login
     }
 
     private static int loginAdmin() {
-        // Implement admin login logic here
-        System.out.println("Admin login functionality coming soon!");
-        return 0; // Return the admin ID upon successful login
+    	System.out.print("Enter username ");
+		String username = sc.next();
+		System.out.print("Enter password ");
+		String password = sc.next();
+		if(username.equals("admin") && password.equals("admin")) {
+			AdminUi.performAdminOperations();
+		}else {
+			System.out.println("Invalid Username of Password");
+		}
+      
+        return 0; 
     }
 
     private static void performUserOperations(int userId) {
@@ -135,6 +158,9 @@ public class Mainui {
                   //  viewBookingStatus(userId);
                     break;
                 case 5:
+                	Userui.changepassword(sc);
+                	break;
+                case 6:
                     // Logout
                     System.out.println("Logged out successfully!");
                     return;
@@ -150,7 +176,8 @@ public class Mainui {
         System.out.println("2. Apply Filters and Sorting Options");
         System.out.println("3. Book a Car");
         System.out.println("4. View Booking Status");
-        System.out.println("5. Logout");
+        System.out.println("5. ChangePassword");
+        System.out.println("6. Logout");
         System.out.print("Choice: ");
     }
 }

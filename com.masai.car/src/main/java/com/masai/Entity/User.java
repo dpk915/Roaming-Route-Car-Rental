@@ -11,13 +11,15 @@ public class User {
 @Id 
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int userId;
-@Column(name="username",unique=true,length=10)
+@Column(name="username",length=10)
 private String username;
 
 @Column(name="mailid",nullable=false,unique = true)
 private String mailid;
 @Column(name="password",length=10 ,nullable=false)
 private String passwrod;
+@Column(name = "is_deleted", nullable = false)
+private int isDeleted;
 public User() {
 	super();
 	// TODO Auto-generated constructor stub
@@ -49,6 +51,12 @@ public String getPasswrod() {
 }
 public void setPasswrod(String passwrod) {
 	this.passwrod = passwrod;
+}
+public int getIsDeleted() {
+	return isDeleted;
+}
+public void setIsDeleted(int isDeleted) {
+	this.isDeleted = isDeleted;
 }
 
 
