@@ -3,10 +3,13 @@ package com.masai.UI;
 
 
 
+import java.text.ParseException;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import com.masai.Carbooking.com.masai.car.LoggedInId;
 import com.masai.Entity.User;
+import com.masai.Exception.NorecordFoundException;
 import com.masai.Exception.SomethingWentwrongException;
 import com.masai.services.UserServicesImpl;
 import com.masai.services.UserServicesinterface;
@@ -17,7 +20,7 @@ import jakarta.persistence.PersistenceException;
 public class Mainui {
     private static final Scanner sc= new Scanner(System.in);
 
-    public static void main(String[] args) throws SomethingWentwrongException {
+    public static void main(String[] args) throws SomethingWentwrongException, NorecordFoundException, ParseException {
         showWelcomeMessage();
 
         boolean isLoggedIn = false;
@@ -57,7 +60,7 @@ public class Mainui {
             if (isLoggedIn) {
                 if (isAdmin) {
                     // Perform admin operations
-                   // performAdminOperations();
+                   //performAdminOperations();
                 } else {
                     // Perform user operations
                     performUserOperations(LoggedInId.loginId);
@@ -112,6 +115,7 @@ public class Mainui {
     	
     		ser.loginuser(username, password);
     		System.out.println("User login Succesfully with id  "+LoggedInId.loginId);
+    		System.out.println("Hello Mr "+username);
     		
     	}catch(PersistenceException ex) {
     		System.out.println(ex.getMessage());
@@ -120,7 +124,7 @@ public class Mainui {
         return LoggedInId.loginId; // Return the user ID upon successful login
     }
 
-    private static int loginAdmin() {
+    private static int loginAdmin() throws SomethingWentwrongException, NorecordFoundException {
     	System.out.print("Enter username ");
 		String username = sc.next();
 		System.out.print("Enter password ");
@@ -134,7 +138,7 @@ public class Mainui {
         return 0; 
     }
 
-    private static void performUserOperations(int userId) {
+    private static void performUserOperations(int userId) throws NorecordFoundException, ParseException, SomethingWentwrongException {
         while (true) {
             showUserMenu();
             int choice = sc.nextInt();
@@ -143,7 +147,7 @@ public class Mainui {
             switch (choice) {
                 case 1:
                     // View available cars
-                  //  viewAvailableCars();
+                	AdminUi.viewallCars();
                     break;
                 case 2:
                     // Apply filters and sorting options
@@ -151,7 +155,7 @@ public class Mainui {
                     break;
                 case 3:
                     // Book a car
-                  //  bookCar(userId);
+                  Userui.bookCar(null, sc);
                     break;
                 case 4:
                     // View booking status

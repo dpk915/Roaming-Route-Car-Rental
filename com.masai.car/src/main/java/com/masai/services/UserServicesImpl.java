@@ -1,8 +1,9 @@
 package com.masai.services;
 
-import com.masai.CarDao.UserDaoInterface;
-import com.masai.CarDao.UserImplDao;
+import com.masai.Dao.UserDaoInterface;
+import com.masai.Dao.UserImplDao;
 import com.masai.Entity.User;
+import com.masai.Exception.NorecordFoundException;
 import com.masai.Exception.SomethingWentwrongException;
 
 public class UserServicesImpl implements UserServicesinterface {
@@ -27,6 +28,20 @@ public class UserServicesImpl implements UserServicesinterface {
 		UserDaoInterface user=new UserImplDao();
 		user.changepassword(oldpassword, newpassword);
 		
+	}
+
+	@Override
+	public User findbyidser(int id) throws SomethingWentwrongException, NorecordFoundException {
+		
+		UserDaoInterface user=new UserImplDao();
+		return user.findbyid(id);
+	}
+
+	@Override
+	public void updateuserbooking(User u) throws SomethingWentwrongException {
+		// TODO Auto-generated method stub
+		UserDaoInterface user=new UserImplDao();
+		user.updateuserbooking(u);
 	}
 
 	

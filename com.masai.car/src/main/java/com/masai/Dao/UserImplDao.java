@@ -1,9 +1,11 @@
-package com.masai.CarDao;
+package com.masai.Dao;
 
+import java.awt.datatransfer.SystemFlavorMap;
 import java.util.List;
 
 import com.masai.Carbooking.com.masai.car.LoggedInId;
 import com.masai.Entity.User;
+import com.masai.Exception.NorecordFoundException;
 import com.masai.Exception.SomethingWentwrongException;
 import com.masai.Utilities.DBUtilities;
 
@@ -14,28 +16,29 @@ import jakarta.persistence.Query;
 
 public class UserImplDao implements UserDaoInterface {
 
+	
 	@Override
 	public void adduser(User u) throws SomethingWentwrongException {
-		EntityManager em=null;
-		EntityTransaction et=null;
-		try {
-			em=DBUtilities.createconnection();
-			Query query = em.createQuery("SELECT count(c) FROM User c WHERE username = :username");
-			query.setParameter("username", u.getUsername());
-			if((Long)query.getSingleResult() > 0) {
-				//you are here means company with given name exists so throw exceptions
-				throw new SomethingWentwrongException("The username" + u.getUsername() + " is already occupied");
-			}
-			et=em.getTransaction();
-			et.begin();
-			em.persist(u);
-			et.commit();
-		}catch( PersistenceException ex) {
-		 throw new SomethingWentwrongException("Unable to add data");
-	}finally {
-		em.close();
-		}
+	    EntityManager em = DBUtilities.createconnection();;
+	    EntityTransaction et = null;
+	    try {
+	        
+	        Query query = em.createQuery("SELECT count(c) FROM User c WHERE username = :username");
+	        query.setParameter("username", u.getUsername());
+	        if ((Long) query.getSingleResult() > 0) {
+	            throw new SomethingWentwrongException("The username " + u.getUsername() + " is already occupied");
+	        }
+	        et = em.getTransaction();
+	        et.begin();
+	        em.persist(u);
+	        et.commit();
+	    } catch (PersistenceException ex) {
+	        throw new SomethingWentwrongException("Unable to add data");
+	    } finally {
+	        em.close();
+	    }
 	}
+
 
 	@Override
 	public void login(String username, String password) throws SomethingWentwrongException {
@@ -86,6 +89,42 @@ public class UserImplDao implements UserDaoInterface {
 				em.close();
 			}
 		
+		
+	}
+
+
+	@Override
+	public User findbyid(int id) throws NorecordFoundException {
+		
+		EntityManager em=null;
+		User user =null;
+		try {
+		 em=DBUtilities.createconnection();
+		 user=em.find(User.class, LoggedInId.loginId);
+			
+		}catch(PersistenceException e) {
+			throw  new NorecordFoundException("No user found");
+		}
+		return user;
+	}
+
+
+	@Override
+	public void updateuserbooking(User b) throws SomethingWentwrongException {
+		  EntityManager em = DBUtilities.createconnection();;
+		    EntityTransaction et = null;
+		    try {
+		        
+		       
+		        et = em.getTransaction();
+		        et.begin();
+		        em.merge(b);
+		        et.commit();
+		    } catch (PersistenceException ex) {
+		        throw new SomethingWentwrongException("Unable to add data");
+		    } finally {
+		        em.close();
+		    }
 		
 	}
 		
