@@ -158,8 +158,7 @@ public class Mainui {
                   Userui.bookCar(null, sc);
                     break;
                 case 4:
-                    // View booking status
-                  //  viewBookingStatus(userId);
+                	Userui.viewbookings(LoggedInId.loginId);
                     break;
                 case 5:
                 	Userui.changepassword(sc);

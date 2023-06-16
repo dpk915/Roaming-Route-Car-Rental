@@ -1,5 +1,7 @@
 package com.masai.Dao;
 
+import java.util.List;
+
 import com.masai.Carbooking.com.masai.car.LoggedInId;
 import com.masai.Entity.User;
 import com.masai.Exception.NorecordFoundException;
@@ -11,5 +13,5 @@ public interface UserDaoInterface {
 	public void changepassword(String oldpassword,String newPassword) throws SomethingWentwrongException;
 	public User findbyid(int id) throws NorecordFoundException;
 	public void updateuserbooking(User b) throws SomethingWentwrongException;
-
+    public List<Object[]> viewbookings(int id) throws SomethingWentwrongException, NorecordFoundException;
 }

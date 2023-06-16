@@ -3,12 +3,16 @@ package com.masai.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+@NamedQuery(name = "User.findBookingsByUser", query = "SELECT u, b FROM User u LEFT JOIN u.bookings b WHERE u.userId = :userId")
+
 
 @Entity
 public class User {
@@ -30,7 +34,7 @@ public User() {
 	// TODO Auto-generated constructor stub
 }
 
-@OneToMany(mappedBy = "user")
+@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 private Set<Booking> bookings;
 public User(String username, String mailid, String passwrod) {
 	super();
@@ -73,6 +77,11 @@ public Set<Booking> getBookings() {
 }
 public void setBookings(Set<Booking> bookings) {
 	this.bookings = bookings;
+}
+@Override
+public String toString() {
+	return "User [userId=" + userId + ", username=" + username + ", mailid=" + mailid + ", passwrod=" + passwrod
+			+ ", isDeleted=" + isDeleted + ", bookings=" + bookings + "]";
 }
 
 
