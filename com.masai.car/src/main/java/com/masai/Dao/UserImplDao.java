@@ -13,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 public class UserImplDao implements UserDaoInterface {
 
@@ -127,7 +128,31 @@ public class UserImplDao implements UserDaoInterface {
 		    }
 		
 	}
+
+
+	@Override
+	public List<Object[]> viewbookings(int id) throws SomethingWentwrongException, NorecordFoundException {
+	    EntityManager em = DBUtilities.createconnection();
+	    List<Object[]> bookings = null;
+	    try {
+	        Query query = em.createNamedQuery("User.findBookingsByUser", Object[].class);
+	        query.setParameter("userId", id); // Set the userId parameter value
+	        bookings = query.getResultList();
+
+	        if (bookings == null || bookings.isEmpty()) {
+	            throw new NorecordFoundException("No Booking available");
+	        }
+	        
+	        return bookings;
+	    } catch (PersistenceException e) {
+	        throw new SomethingWentwrongException("Something went wrong");
+	    }
+	}
+
+		
+
 		
 	
+
 
 }
