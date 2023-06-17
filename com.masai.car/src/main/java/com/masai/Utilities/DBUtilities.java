@@ -16,4 +16,5 @@ public class DBUtilities {
 		return emf.createEntityManager();
 	}
 
+	//public static void main() {}
 }

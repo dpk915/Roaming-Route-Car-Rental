@@ -28,7 +28,7 @@ import jakarta.persistence.PersistenceException;
 
 public class Userui {
 	
-public static void	changepassword(Scanner sc) {
+public static void changepassword(Scanner sc) {
 	System.out.print("Enter old password ");
 	String oldPassword = sc.next();
 	System.out.print("Enter new password ");

@@ -1,11 +1,18 @@
 package com.masai.UI;
+import java.util.List;
 import java.util.Scanner;
 
-import org.hibernate.mapping.List;
 
+
+import com.masai.Dao.Bookingimpl;
+import com.masai.Dao.Bookinginterface;
+import com.masai.Entity.Booking;
 import com.masai.Entity.Car;
+import com.masai.Entity.User;
 import com.masai.Exception.NorecordFoundException;
 import com.masai.Exception.SomethingWentwrongException;
+import com.masai.services.BookingServicesImp;
+import com.masai.services.Bookingservices;
 import com.masai.services.CarServiceImpl;
 import com.masai.services.CarServiceInterface;
 
@@ -45,7 +52,8 @@ public class AdminUi {
                     break;
                 case 5:
                     // Generate reports
-                    generateReports();
+                   // generateReports();
+                	viewallbookings();
                     break;
                 case 6:
                 	viewallCars();
@@ -176,7 +184,19 @@ public class AdminUi {
     	for(Car in:c.viewAllcars()) {
     		System.out.println(in.toString());
     	}
+    	
     }
+    
+    public static void viewallbookings() {
+        Bookingservices booking = new BookingServicesImp();
+        List<Booking> list = booking.viewbookings();
+       for(Booking in :list) {
+    	   System.out.println("Booking Id"+in.getBookingId()+" Status :-"+in.getStatus()+"  Date :"+in.getBookingDate()+" User id "+in.getUser().getUserId());
+       }
+    }
+
+    	
+    
     
    
 }
