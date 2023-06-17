@@ -78,11 +78,8 @@ public Set<Booking> getBookings() {
 public void setBookings(Set<Booking> bookings) {
 	this.bookings = bookings;
 }
-@Override
-public String toString() {
-	return "User [userId=" + userId + ", username=" + username + ", mailid=" + mailid + ", passwrod=" + passwrod
-			+ ", isDeleted=" + isDeleted + ", bookings=" + bookings + "]";
-}
+//@Override
+
 
 
 

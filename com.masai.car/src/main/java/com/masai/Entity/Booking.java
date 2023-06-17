@@ -1,16 +1,6 @@
 package com.masai.Entity;
 
-
-
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -22,10 +12,8 @@ public class Booking {
     @Column(name = "booking_id")
     private Long bookingId;
 
-   
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-
+    @JoinColumn(name = "userid")
     private User user;
 
     @Column(name = "car_id")
@@ -34,7 +22,7 @@ public class Booking {
     @Column(name = "booking_date")
     private Date bookingDate;
 
-    @Column(name = "status" )
+    @Column(name = "status")
     private String status;
 
     // Constructors, getters, and setters
@@ -42,8 +30,8 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(User userId, Long carId, Date bookingDate, String status) {
-        this.user = userId;
+    public Booking(User user, Long carId, Date bookingDate, String status) {
+        this.user = user;
         this.carId = carId;
         this.bookingDate = bookingDate;
         this.status = "Pending";
@@ -53,14 +41,12 @@ public class Booking {
         return bookingId;
     }
 
-   
-
-    public User getUserId() {
+    public User getUser() {
         return user;
     }
 
-    public void setUserId(User userId) {
-        this.user = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getCarId() {
@@ -87,10 +73,5 @@ public class Booking {
         this.status = status;
     }
 
-	@Override
-	public String toString() {
-		return "Booking [bookingId=" + bookingId + ", user=" + user + ", carId=" + carId + ", bookingDate="
-				+ bookingDate + ", status=" + status + "]";
-	}
-    
+   
 }
