@@ -15,6 +15,8 @@ import com.masai.services.BookingServicesImp;
 import com.masai.services.Bookingservices;
 import com.masai.services.CarServiceImpl;
 import com.masai.services.CarServiceInterface;
+import com.masai.services.UserServicesImpl;
+import com.masai.services.UserServicesinterface;
 
 import jakarta.persistence.PersistenceException;
 
@@ -48,17 +50,22 @@ public class AdminUi {
                     break;
                 case 4:
                     // Confirm or reject car bookings
-                    confirmOrRejectBookings();
+                	confirmorreject();
                     break;
                 case 5:
                     // Generate reports
                    // generateReports();
-                	viewallbookings();
+                	generateReports();
                     break;
                 case 6:
                 	viewallCars();
                 	break;
                 case 7:
+                	viewallbookings();
+                	break;
+                case 8:
+                	viewalluser();
+                case 0:
                     // Logout
                     System.out.println("Logged out successfully!");
                     return;
@@ -76,7 +83,8 @@ public class AdminUi {
         System.out.println("4. Confirm or Reject Bookings");
         System.out.println("5. Generate Reports");
         System.out.println("6. View All Cars");
-        System.out.println("7. Logout");
+        System.out.println("7. View All Bookings");
+        System.out.println("0. Logout");
         System.out.print("Choice: ");
     }
 
@@ -167,17 +175,7 @@ public class AdminUi {
          System.out.println("Car details deleted successfully!");
       
     }
-
-    private static void confirmOrRejectBookings() {
-        // Implement logic to confirm or reject car bookings here
-        System.out.println("Confirm or reject bookings functionality coming soon!");
-    }
-
-    private static void generateReports() {
-        // Implement logic to generate reports here
-        System.out.println("Generate reports functionality coming soon!");
-    }
-    
+ 
     public static void viewallCars() throws NorecordFoundException {
     	CarServiceInterface c=new CarServiceImpl();
     	 c.viewAllcars();
@@ -191,13 +189,104 @@ public class AdminUi {
         Bookingservices booking = new BookingServicesImp();
         List<Booking> list = booking.viewbookings();
        for(Booking in :list) {
-    	   System.out.println("Booking Id"+in.getBookingId()+" Status :-"+in.getStatus()+"  Date :"+in.getBookingDate()+" User id "+in.getUser().getUserId());
+    	   System.out.println("Booking Id "+in.getBookingId()+" Status :-"+in.getStatus()+"  Date :"+in.getBookingDate()+" User id "+in.getUser().getUserId());
        }
+    }
+    
+    public static void confirmorreject() throws NorecordFoundException {
+    	
+    	System.out.println("Enter Booking Id to perform operations");
+    	int id=scanner.nextInt();
+    	System.out.println("Please type confirmed or rejeced");
+    	String status=scanner.next();
+    	
+    	try {
+    		 Bookingservices booking = new BookingServicesImp();
+    		 booking.confirmorrejectser(id, status.toLowerCase());
+    	}catch(PersistenceException e) {}
     }
 
     	
+    public static  void generateReports() {
+        // Display menu options to the admin
+        System.out.println("=== Generate Reports ===");
+        System.out.println("1. Number of Bookings");
+        
+        System.out.println("2. Revenue Generated");
+        
+        System.out.println("3. Back to Admin Menu");
+
+        // Read user input
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+               generateBookingReport();
+                break;
+            case 2:
+              //  generateRevenueReport();
+                break;
+            case 3:
+                // Go back to the admin menu
+                AdminUi adminUI = new AdminUi();
+                adminUI.showAdminMenu();
+                break;
+            default:
+                System.out.println("Invalid choice!");
+        }
+    }
     
+    public static  void generateBookingReport() {
+        // Display menu options to the admin
+        System.out.println("=== Generate Reports ===");
+        System.out.println("1. Number of Bookings Pending");
+        
+        System.out.println("2. Number of confirmed Booking ");
+        
+        System.out.println("3. Back to Reports");
+
+        // Read user input
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+            	genratepending();
+            	
+                break;
+            case 2:
+            	genrateconfirmed();
+                break;
+            case 3:
+                // Go back to the admin menu
+               generateReports();
+                break;
+            default:
+                System.out.println("Invalid choice!");
+        }
+    }
     
-   
+    static void genratepending() {
+    	Bookingservices b=new BookingServicesImp();
+        List<Booking> list = b.pendingbooking();
+        System.out.println(" Total Pending Bookings are  "+ list.size());
+        list.stream().forEach(x->System.out.println(x));
+    }
+    static void genrateconfirmed() {
+    	Bookingservices b=new BookingServicesImp();
+        List<Booking> list = b.confirmedbooking();
+        System.out.println(" Total confirmed Bookings are "+list.size());
+        list.stream().forEach(x->System.out.println(x));
+    }
+    
+  public static  void viewalluser() throws SomethingWentwrongException, NorecordFoundException {
+	  UserServicesinterface user=new UserServicesImpl();
+	  List<User> list=user.viewusersser();
+	  for(User in :list) {
+		  System.out.println("User Name "+in.getUsername()+" User id "+in.getUserId()+" User Mail "+in.getMailid() +" Total Bookings "+in.getBookings().size());
+	  }
+	  
+  }
 }
 

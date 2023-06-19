@@ -149,6 +149,23 @@ public class UserImplDao implements UserDaoInterface {
 	    }
 	}
 
+
+	@Override
+	public List<User> viewAlluser() throws SomethingWentwrongException, NorecordFoundException {
+		EntityManager em=null;
+		List<User> user =null;
+		try {
+		 em=DBUtilities.createconnection();
+		 String str="Select u from User u";
+		 Query query=em.createQuery(str);
+		 user=query.getResultList();
+		 return user;
+			
+		}catch(PersistenceException e) {
+			throw  new NorecordFoundException("No user found");
+		}
+	}
+
 		
 
 		

@@ -15,4 +15,5 @@ public interface UserServicesinterface {
     public void updateuserbooking(User u) throws SomethingWentwrongException;
     
     public List<Object[]> viewbookingser(int loginId) throws SomethingWentwrongException, NorecordFoundException;
+    public List<User> viewusersser() throws SomethingWentwrongException, NorecordFoundException;
 }

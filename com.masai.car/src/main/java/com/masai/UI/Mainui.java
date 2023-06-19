@@ -164,6 +164,9 @@ public class Mainui {
                 	Userui.changepassword(sc);
                 	break;
                 case 6:
+                	Userui.cancelbooking(sc);
+                	break;
+                case 7:
                     // Logout
                     System.out.println("Logged out successfully!");
                     return;
@@ -180,7 +183,8 @@ public class Mainui {
         System.out.println("3. Book a Car");
         System.out.println("4. View Booking Status");
         System.out.println("5. ChangePassword");
-        System.out.println("6. Logout");
+        System.out.println("6. cancel Booking");
+        System.out.println("7. Logout");
         System.out.print("Choice: ");
     }
 }
