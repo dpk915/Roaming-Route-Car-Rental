@@ -1,4 +1,6 @@
 # Car Booking Portal
+![image](https://github.com/dpk915/filthy-receipt-7691/assets/54777923/864c4a05-ed00-4fa8-a25a-7e902afed916)
+
 
 The Car Booking Portal is an online platform designed to facilitate the process of booking cars for users. This repository contains the code and resources required to run the car booking portal application. It provides users with the ability to register, log in, browse available cars, and book them. Admin users have additional functionalities to manage car details, confirm or reject car bookings, and generate reports on bookings.
 
