@@ -53,5 +53,11 @@ public class UserServicesImpl implements UserServicesinterface {
 		return user.viewbookings(id);
 	}
 
+	@Override
+	public List<User> viewusersser() throws SomethingWentwrongException, NorecordFoundException {
+		UserDaoInterface user=new UserImplDao();
+		return user.viewAlluser();
+	}
+
 	
 }

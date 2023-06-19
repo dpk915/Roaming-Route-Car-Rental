@@ -14,4 +14,5 @@ public interface UserDaoInterface {
 	public User findbyid(int id) throws NorecordFoundException;
 	public void updateuserbooking(User b) throws SomethingWentwrongException;
     public List<Object[]> viewbookings(int id) throws SomethingWentwrongException, NorecordFoundException;
+    public List<User> viewAlluser() throws SomethingWentwrongException, NorecordFoundException;
 }

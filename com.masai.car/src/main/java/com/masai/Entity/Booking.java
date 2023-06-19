@@ -26,15 +26,17 @@ public class Booking {
     private String status;
 
     // Constructors, getters, and setters
-
+    @Column(name="booked_on")
+    private Date booked_on;
     public Booking() {
     }
 
-    public Booking(User user, Long carId, Date bookingDate, String status) {
+    public Booking(User user, Long carId, Date bookingDate, String status,Date booked_on) {
         this.user = user;
         this.carId = carId;
         this.bookingDate = bookingDate;
         this.status = "Pending";
+        this.booked_on=booked_on;
     }
 
     public Long getBookingId() {
@@ -72,6 +74,23 @@ public class Booking {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+
+	public Date getBooked_on() {
+		return booked_on;
+	}
+
+	public void setBooked_on(Date booked_on) {
+		this.booked_on = booked_on;
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [bookingId=" + bookingId + ", user=" + user.getUsername() + ", carId=" + carId + ", bookingDate="
+				+ bookingDate + ", status=" + status + ", booked_on=" + booked_on + "]";
+	}
+
+	
 
    
 }
